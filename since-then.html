@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Since Then</title>
+  <style>
+    :root {
+      --bg: #f5f1eb;
+      --card: #fffdf9;
+      --ink: #2d2926;
+      --muted: #756d66;
+      --accent: #7d5f4b;
+      --accent-dark: #5c4435;
+      --border: #e4dbd1;
+      --danger: #a64c45;
+      --shadow: 0 14px 35px rgba(72, 53, 38, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Georgia, "Times New Roman", serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    .app {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+      padding: 48px 0 70px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--accent);
+      font-family: Arial, sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.5rem, 6vw, 4.8rem);
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .subtitle {
+      max-width: 550px;
+      margin: 18px auto 0;
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+      margin-bottom: 28px;
+    }
+
+    .panel h2 {
+      margin: 0 0 20px;
+      font-size: 1.6rem;
+      font-weight: 500;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 16px;
+      align-items: end;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-family: Arial, sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 13px 14px;
+      background: #fff;
+      color: var(--ink);
+      font: 1rem Arial, sans-serif;
+    }
+
+    input:focus {
+      outline: 2px solid rgba(125, 95, 75, 0.25);
+      border-color: var(--accent);
+    }
+
+    button {
+      border: 0;
+      border-radius: 11px;
+      padding: 14px 20px;
+      background: var(--accent);
+      color: white;
+      cursor: pointer;
+      font: 700 0.9rem Arial, sans-serif;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background: var(--accent-dark);
+      transform: translateY(-1px);
+    }
+
+    button.secondary {
+      background: #eee5dc;
+      color: var(--accent-dark);
+    }
+
+    button.danger {
+      background: transparent;
+      color: var(--danger);
+      border: 1px solid #e8c9c5;
+      padding: 9px 12px;
+    }
+
+    .empty {
+      padding: 35px 15px;
+      text-align: center;
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+    }
+
+    .events {
+      display: grid;
+      gap: 20px;
+    }
+
+    .event-card {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      background: #fffefa;
+    }
+
+    .event-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 15px;
+      margin-bottom: 8px;
+    }
+
+    .event-title {
+      margin: 0;
+      font-size: 1.65rem;
+      font-weight: 500;
+      overflow-wrap: anywhere;
+    }
+
+    .event-date {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font: 0.88rem Arial, sans-serif;
+    }
+
+    .main-result {
+      margin: 24px 0;
+      color: var(--accent-dark);
+      font-size: clamp(1.5rem, 4vw, 2.4rem);
+      line-height: 1.25;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .stat {
+      padding: 16px 10px;
+      border-radius: 13px;
+      background: #f4eee7;
+      text-align: center;
+    }
+
+    .stat-value {
+      display: block;
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      font-weight: 600;
+      overflow-wrap: anywhere;
+    }
+
+    .stat-label {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font: 0.72rem Arial, sans-serif;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .event-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-top: 20px;
+      color: var(--muted);
+      font: 0.8rem Arial, sans-serif;
+    }
+
+    .future {
+      color: var(--accent-dark);
+      font-family: Arial, sans-serif;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 750px) {
+      form {
+        grid-template-columns: 1fr;
+      }
+
+      form button {
+        width: 100%;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .panel {
+        padding: 20px;
+      }
+
+      .event-top,
+      .event-bottom {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .event-bottom button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <p class="eyebrow">Your personal time tracker</p>
+      <h1>Since Then</h1>
+      <p class="subtitle">
+        Add a meaningful date, give it a name, and watch how much time has passed.
+      </p>
+    </header>
+
+    <section class="panel">
+      <h2>Add a date</h2>
+      <form id="date-form">
+        <div>
+          <label for="label">What are you tracking?</label>
+          <input id="label" type="text" placeholder="e.g. Started my business" required maxlength="120" />
+        </div>
+
+        <div>
+          <label for="date">Starting date</label>
+          <input id="date" type="date" required />
+        </div>
+
+        <button type="submit">Add Date</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Your dates</h2>
+      <div id="events" class="events">
+        <div class="empty">No dates added yet. Add your first date above.</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById("date-form");
+    const labelInput = document.getElementById("label");
+    const dateInput = document.getElementById("date");
+    const eventsContainer = document.getElementById("events");
+
+    let events = JSON.parse(localStorage.getItem("sinceThenEvents") || "[]");
+
+    function saveEvents() {
+      localStorage.setItem("sinceThenEvents", JSON.stringify(events));
+    }
+
+    function parseLocalDate(dateString) {
+      const [year, month, day] = dateString.split("-").map(Number);
+      return new Date(year, month - 1, day);
+    }
+
+    function startOfDay(date) {
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    }
+
+    function addMonthsClamped(date, months) {
+      const result = new Date(date);
+      const originalDay = result.getDate();
+
+      result.setDate(1);
+      result.setMonth(result.getMonth() + months);
+
+      const lastDay = new Date(
+        result.getFullYear(),
+        result.getMonth() + 1,
+        0
+      ).getDate();
+
+      result.setDate(Math.min(originalDay, lastDay));
+      return result;
+    }
+
+    function calculateElapsed(startDate, endDate) {
+      let years = endDate.getFullYear() - startDate.getFullYear();
+      let anchor = new Date(startDate);
+      anchor.setFullYear(startDate.getFullYear() + years);
+
+      if (anchor > endDate) {
+        years--;
+        anchor = new Date(startDate);
+        anchor.setFullYear(startDate.getFullYear() + years);
+      }
+
+      let months =
+        (endDate.getFullYear() - anchor.getFullYear()) * 12 +
+        (endDate.getMonth() - anchor.getMonth());
+
+      let monthAnchor = addMonthsClamped(anchor, months);
+
+      if (monthAnchor > endDate) {
+        months--;
+        monthAnchor = addMonthsClamped(anchor, months);
+      }
+
+      const millisecondsPerDay = 24 * 60 * 60 * 1000;
+      const days = Math.floor((endDate - monthAnchor) / millisecondsPerDay);
+
+      const totalDays = Math.floor(
+        (endDate - startDate) / millisecondsPerDay
+      );
+
+      return {
+        years,
+        months,
+        days,
+        totalDays,
+        totalWeeks: Math.floor(totalDays / 7),
+        totalMonths: years * 12 + months,
+      };
+    }
+
+    function formatNumber(number) {
+      return number.toLocaleString();
+    }
+
+    function formatDate(dateString) {
+      return parseLocalDate(dateString).toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    }
+
+    function renderEvents() {
+      if (!events.length) {
+        eventsContainer.innerHTML =
+          '<div class="empty">No dates added yet. Add your first date above.</div>';
+        return;
+      }
+
+      const today = startOfDay(new Date());
+
+      eventsContainer.innerHTML = events
+        .map((event) => {
+          const startDate = parseLocalDate(event.date);
+          const isFuture = startDate > today;
+
+          if (isFuture) {
+            const daysUntil = Math.ceil(
+              (startDate - today) / (24 * 60 * 60 * 1000)
+            );
+
+            return `
+              <article class="event-card">
+                <div class="event-top">
+                  <div>
+                    <h3 class="event-title">${escapeHtml(event.label)}</h3>
+                    <p class="event-date">${formatDate(event.date)}</p>
+                  </div>
+                  <button class="danger" data-delete="${event.id}">Delete</button>
+                </div>
+                <p class="main-result future">${formatNumber(daysUntil)} day${daysUntil === 1 ? "" : "s"} until this date</p>
+              </article>
+            `;
+          }
+
+          const elapsed = calculateElapsed(startDate, today);
+
+          return `
+            <article class="event-card">
+              <div class="event-top">
+                <div>
+                  <h3 class="event-title">${escapeHtml(event.label)}</h3>
+                  <p class="event-date">${formatDate(event.date)}</p>
+                </div>
+                <button class="danger" data-delete="${event.id}">Delete</button>
+              </div>
+
+              <p class="main-result">
+                ${elapsed.years} year${elapsed.years === 1 ? "" : "s"},
+                ${elapsed.months} month${elapsed.months === 1 ? "" : "s"},
+                ${elapsed.days} day${elapsed.days === 1 ? "" : "s"}
+              </p>
+
+              <div class="stats">
+                <div class="stat">
+                  <span class="stat-value">${formatNumber(elapsed.totalDays)}</span>
+                  <span class="stat-label">Days</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">${formatNumber(elapsed.totalWeeks)}</span>
+                  <span class="stat-label">Weeks</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">${formatNumber(elapsed.totalMonths)}</span>
+                  <span class="stat-label">Months</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">${elapsed.years}</span>
+                  <span class="stat-label">Full years</span>
+                </div>
+              </div>
+
+              <div class="event-bottom">
+                <span>Updates automatically each day</span>
+                <button class="secondary" data-reset="${event.id}">Reset to today</button>
+              </div>
+            </article>
+          `;
+        })
+        .join("");
+    }
+
+    function escapeHtml(value) {
+      return value.replace(/[&<>"']/g, (character) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;",
+      }[character]));
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const label = labelInput.value.trim();
+      const date = dateInput.value;
+
+      if (!label || !date) return;
+
+      events.unshift({
+        id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+        label,
+        date,
+      });
+
+      saveEvents();
+      renderEvents();
+      form.reset();
+    });
+
+    eventsContainer.addEventListener("click", (event) => {
+      const deleteButton = event.target.closest("[data-delete]");
+      const resetButton = event.target.closest("[data-reset]");
+
+      if (deleteButton) {
+        events = events.filter((item) => item.id !== deleteButton.dataset.delete);
+        saveEvents();
+        renderEvents();
+      }
+
+      if (resetButton) {
+        const item = events.find((item) => item.id === resetButton.dataset.reset);
+        if (!item) return;
+
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, "0");
+        const day = String(today.getDate()).padStart(2, "0");
+
+        item.date = `${year}-${month}-${day}`;
+        saveEvents();
+        renderEvents();
+      }
+    });
+
+    renderEvents();
+
+    // Refresh displayed values when the page remains open across midnight.
+    setInterval(renderEvents, 60 * 1000);
+  </script>
+</body>
+</html>
